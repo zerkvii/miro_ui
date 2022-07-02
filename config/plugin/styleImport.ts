@@ -74,6 +74,7 @@ export default function configStyleImportPlugin() {
           if (ignoreList.includes(name)) return '';
           // eslint-disable-next-line no-prototype-builtins
           return replaceList.hasOwnProperty(name)
+            // @ts-ignore
             ? `@arco-design/web-vue/es/${replaceList[name]}/style/css.js`
             : `@arco-design/web-vue/es/${name}/style/css.js`;
           // less

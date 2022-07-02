@@ -1,7 +1,7 @@
 <template>
   <div class="login-form-wrapper">
-    <div class="login-form-title">{{ $t('login.form.title') }}</div>
-    <div class="login-form-sub-title">{{ $t('login.form.title') }}</div>
+    <div class="login-form-title">{{ $t('auth.form.title') }}</div>
+    <div class="login-form-sub-title">{{ $t('auth.form.subTitle') }}</div>
     <div class="login-form-error-msg">{{ errorMessage }}</div>
     <a-form
       ref="loginForm"
@@ -12,13 +12,13 @@
     >
       <a-form-item
         field="username"
-        :rules="[{ required: true, message: $t('login.form.userName.errMsg') }]"
+        :rules="[{ required: true, message: $t('auth.form.userName.errMsg') }]"
         :validate-trigger="['change', 'blur']"
         hide-label
       >
         <a-input
           v-model="userInfo.username"
-          :placeholder="$t('login.form.userName.placeholder')"
+          :placeholder="$t('auth.form.userName.placeholder')"
         >
           <template #prefix>
             <icon-user />
@@ -27,13 +27,13 @@
       </a-form-item>
       <a-form-item
         field="password"
-        :rules="[{ required: true, message: $t('login.form.password.errMsg') }]"
+        :rules="[{ required: true, message: $t('auth.form.password.errMsg') }]"
         :validate-trigger="['change', 'blur']"
         hide-label
       >
         <a-input-password
           v-model="userInfo.password"
-          :placeholder="$t('login.form.password.placeholder')"
+          :placeholder="$t('auth.form.password.placeholder')"
           allow-clear
         >
           <template #prefix>
@@ -46,17 +46,22 @@
           <a-checkbox
             checked="rememberPassword"
             :model-value="loginConfig.rememberPassword"
-            @change="(setRememberPassword as any)"
+            @change="setRememberPassword;"
           >
-            {{ $t('login.form.rememberPassword') }}
+            {{ $t('auth.form.rememberPassword') }}
           </a-checkbox>
-          <a-link>{{ $t('login.form.forgetPassword') }}</a-link>
+          <a-link>{{ $t('auth.form.forgetPassword') }}</a-link>
         </div>
         <a-button type="primary" html-type="submit" long :loading="loading">
-          {{ $t('login.form.login') }}
+          {{ $t('auth.form.login') }}
         </a-button>
-        <a-button type="text" long class="login-form-register-btn">
-          {{ $t('login.form.register') }}
+        <a-button
+          type="outline"
+          long
+          class="login-form-register-btn"
+          @click="register"
+        >
+          {{ $t('auth.form.register') }}
         </a-button>
       </a-space>
     </a-form>
@@ -72,22 +77,29 @@
   import { useStorage } from '@vueuse/core';
   import { useUserStore } from '@/store';
   import useLoading from '@/hooks/loading';
-  import type { LoginData } from '@/api/user';
+  import type { AuthData } from '@/api/user';
 
   const router = useRouter();
   const { t } = useI18n();
   const errorMessage = ref('');
   const { loading, setLoading } = useLoading();
   const userStore = useUserStore();
+  const emit = defineEmits(['toggleRegister']);
 
-  const loginConfig = useStorage('login-config', {
-    rememberPassword: true,
-    username: 'admin', // 演示默认值
-    password: 'admin', // demo default value
-  });
+  // const loginConfig = useStorage('auth-config', {
+  //   // 需要clear localstorage
+  //   rememberPassword: true,
+  //   username: 'zee', // 演示默认值
+  //   password: '123456', // demo default value
+  //   // password_confirm:'admin'
+  // });
   const userInfo = reactive({
-    username: loginConfig.value.username,
-    password: loginConfig.value.password,
+    // username: loginConfig.value.username,
+    // password: loginConfig.value.password,
+    username: 'zee',
+    password: '123456',
+    // password_confirm: loginConfig.value.password_confirm
+    // username:'zerkvii'
   });
 
   const handleSubmit = async ({
@@ -100,15 +112,17 @@
     if (!errors) {
       setLoading(true);
       try {
-        await userStore.login(values as LoginData);
+        await userStore.login(values as AuthData);
         const { redirect, ...othersQuery } = router.currentRoute.value.query;
-        router.push({
-          name: (redirect as string) || 'Workplace',
-          query: {
-            ...othersQuery,
-          },
-        });
-        Message.success(t('login.form.login.success'));
+        router
+          .push({
+            name: (redirect as string) || 'Workplace',
+            query: {
+              ...othersQuery,
+            },
+          })
+          .then();
+        Message.success(t('auth.form.login.success'));
         const { rememberPassword } = loginConfig.value;
         const { username, password } = values;
         // 实际生产环境需要进行加密存储。
@@ -124,6 +138,10 @@
   };
   const setRememberPassword = (value: boolean) => {
     loginConfig.value.rememberPassword = value;
+  };
+
+  const register = () => {
+    emit('toggleRegister');
   };
 </script>
 

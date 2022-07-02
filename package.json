@@ -1,10 +1,9 @@
 {
-  "name": "arco-design-pro-vue",
-  "description": "Arco Design Pro for Vue",
+  "name": "miro",
+  "description": "miro 4 u",
   "version": "1.0.0",
   "private": true,
-  "author": "ArcoDesign Team",
-  "license": "MIT",
+  "author": "zerkvii@gmail.com",
   "scripts": {
     "dev": "vite --config ./config/vite.config.dev.ts",
     "build": "vue-tsc --noEmit && vite build --config ./config/vite.config.prod.ts",

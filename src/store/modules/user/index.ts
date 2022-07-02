@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
 import {
-  login as userLogin,
+  auth as userAuth,
   logout as userLogout,
   getUserInfo,
-  LoginData,
+  AuthData,
 } from '@/api/user';
 import { setToken, clearToken } from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
@@ -45,6 +45,7 @@ const useUserStore = defineStore('user', {
     },
     // Set user's information
     setInfo(partial: Partial<UserState>) {
+      console.log(partial)
       this.$patch(partial);
     },
 
@@ -61,9 +62,10 @@ const useUserStore = defineStore('user', {
     },
 
     // Login
-    async login(loginForm: LoginData) {
+    async login(authForm: AuthData) {
       try {
-        const res = await userLogin(loginForm);
+        const res = await userAuth(authForm);
+        console.log(res.data.token)
         setToken(res.data.token);
       } catch (err) {
         clearToken();

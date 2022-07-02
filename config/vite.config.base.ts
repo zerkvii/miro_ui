@@ -6,6 +6,15 @@ import svgLoader from 'vite-svg-loader';
 
 export default defineConfig({
   plugins: [vue(), vueJsx(), svgLoader({ svgoConfig: {} })],
+  server: {
+    proxy: {
+      "/api/users": {
+        target: "http://localhost:8000",
+        changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
   resolve: {
     alias: [
       {

@@ -17,7 +17,7 @@ export default function setupUserLoginInfoGuard(router: Router) {
           next();
         } catch (error) {
           next({
-            name: 'login',
+            name: 'auth',
             query: {
               redirect: to.name,
               ...to.query,
@@ -26,12 +26,12 @@ export default function setupUserLoginInfoGuard(router: Router) {
         }
       }
     } else {
-      if (to.name === 'login') {
+      if (to.name === 'auth') {
         next();
         return;
       }
       next({
-        name: 'login',
+        name: 'auth',
         query: {
           redirect: to.name,
           ...to.query,
