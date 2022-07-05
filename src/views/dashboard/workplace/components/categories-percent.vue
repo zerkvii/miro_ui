@@ -18,15 +18,32 @@
 <script lang="ts" setup>
   import useLoading from '@/hooks/loading';
   import useChartOption from '@/hooks/chart-option';
+  import { queryCategorySum } from '@/api/dashboard';
+  import { ref } from 'vue';
 
   const { loading } = useLoading();
+
+  const pieData = ref<any[]>([]);
+  // ts-ignore
+  const fetchData = async () => {
+    const { data } = await queryCategorySum();
+    // const appStore = useAppStore();
+    //
+    // if(appStore.isDark) {
+    // }
+    pieData.value = data;
+    // itemStyle: {
+    //
+    // },
+  };
+  fetchData();
   const { chartOption } = useChartOption((isDark) => {
     // echarts support https://echarts.apache.org/zh/theme-builder.html
     // It's not used here
     return {
       legend: {
         left: 'center',
-        data: ['纯文本', '图文类', '视频类'],
+        data: ['文本类', '图片类', '视频类'],
         bottom: 0,
         icon: 'circle',
         itemWidth: 8,
@@ -82,29 +99,26 @@
             borderColor: isDark ? '#232324' : '#fff',
             borderWidth: 1,
           },
-          data: [
-            {
-              value: [148564],
-              name: '纯文本',
-              itemStyle: {
-                color: isDark ? '#3D72F6' : '#249EFF',
-              },
-            },
-            {
-              value: [334271],
-              name: '图文类',
-              itemStyle: {
-                color: isDark ? '#A079DC' : '#313CA9',
-              },
-            },
-            {
-              value: [445694],
-              name: '视频类',
-              itemStyle: {
-                color: isDark ? '#6CAAF5' : '#21CCFF',
-              },
-            },
-          ],
+          data: pieData.value,
+          // {
+          //   value: 12,
+          //   name: "纯文本"
+          //
+          // },
+          // {
+          //   value: 22,
+          //   name: "图文类",
+          //   itemStyle: {
+          //     color: isDark ? "#A079DC" : "#313CA9"
+          //   }
+          // },
+          // {
+          //   value: 44,
+          //   name: "视频类",
+          //   itemStyle: {
+          //     color: isDark ? "#6CAAF5" : "#21CCFF"
+          //   }
+          // }
         },
       ],
     };

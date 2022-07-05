@@ -7,7 +7,7 @@ export interface ContentDataRecord {
 }
 
 export function queryContentData() {
-  return axios.get<ContentDataRecord[]>('/api/content-data');
+  return axios.get<ContentDataRecord[]>('/api/contents/week-data');
 }
 
 export interface PopularRecord {
@@ -17,6 +17,15 @@ export interface PopularRecord {
   increases: number;
 }
 
-export function queryPopularList(params: { type: string }) {
-  return axios.get<TableData[]>('/api/popular/list', { params });
+export function queryPopularList(params: { queryType: string }) {
+  return axios.get<TableData[]>('/api/contents/popular-list', { params });
+}
+
+export interface PieItem {
+  name: string;
+  value: string;
+}
+
+export function queryCategorySum() {
+  return axios.get<PieItem[]>('/api/contents/category-sum');
 }

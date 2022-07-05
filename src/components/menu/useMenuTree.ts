@@ -20,7 +20,6 @@ export default function useMenuTree() {
     });
     function travel(_routes: RouteRecordRaw[], layer: number) {
       if (!_routes) return null;
-
       const collector: any = _routes.map((element) => {
         // no access
         if (!permission.accessRouter(element)) {
@@ -40,7 +39,6 @@ export default function useMenuTree() {
 
         // Associated child node
         const subItem = travel(element.children, layer + 1);
-
         if (subItem.length) {
           element.children = subItem;
           return element;
@@ -51,9 +49,9 @@ export default function useMenuTree() {
           return element;
         }
 
-        if (element.meta?.hideInMenu === false) {
+        // if (element.meta?.hideInMenu === false) {
           return element;
-        }
+        // }
 
         return null;
       });

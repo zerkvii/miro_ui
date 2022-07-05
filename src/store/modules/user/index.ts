@@ -12,7 +12,7 @@ import useAppStore from '../app';
 
 const useUserStore = defineStore('user', {
   state: (): UserState => ({
-    name: undefined,
+    username: undefined,
     avatar: undefined,
     job: undefined,
     organization: undefined,
@@ -45,7 +45,7 @@ const useUserStore = defineStore('user', {
     },
     // Set user's information
     setInfo(partial: Partial<UserState>) {
-      console.log(partial)
+      // console.log(partial)
       this.$patch(partial);
     },
 
@@ -65,7 +65,6 @@ const useUserStore = defineStore('user', {
     async login(authForm: AuthData) {
       try {
         const res = await userAuth(authForm);
-        console.log(res.data.token)
         setToken(res.data.token);
       } catch (err) {
         clearToken();

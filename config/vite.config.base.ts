@@ -8,10 +8,10 @@ export default defineConfig({
   plugins: [vue(), vueJsx(), svgLoader({ svgoConfig: {} })],
   server: {
     proxy: {
-      "/api/users": {
+      "/api": {
         target: "http://localhost:8000",
         changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/api/, '/apis/v1/')
       },
     },
   },

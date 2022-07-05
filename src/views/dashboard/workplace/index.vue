@@ -10,12 +10,12 @@
         <a-grid-item
           :span="{ xs: 24, sm: 24, md: 24, lg: 12, xl: 12, xxl: 12 }"
         >
-          <PopularContent />
+<!--          <PopularContent />-->
+          <CategoriesPercent />
         </a-grid-item>
         <a-grid-item
           :span="{ xs: 24, sm: 24, md: 24, lg: 12, xl: 12, xxl: 12 }"
         >
-          <CategoriesPercent />
         </a-grid-item>
       </a-grid>
     </div>
@@ -28,13 +28,13 @@
           </div>
         </a-grid-item>
         <a-grid-item class="panel" :span="24">
-          <Carousel />
+                    <Carousel />
         </a-grid-item>
         <a-grid-item class="panel" :span="24">
-          <Announcement />
+                    <Announcement />
         </a-grid-item>
         <a-grid-item class="panel" :span="24">
-          <Docs />
+<!--                    <Docs />-->
         </a-grid-item>
       </a-grid>
     </div>

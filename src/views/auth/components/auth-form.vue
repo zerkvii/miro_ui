@@ -86,13 +86,13 @@
   const userStore = useUserStore();
   const emit = defineEmits(['toggleRegister']);
 
-  // const loginConfig = useStorage('auth-config', {
-  //   // 需要clear localstorage
-  //   rememberPassword: true,
-  //   username: 'zee', // 演示默认值
-  //   password: '123456', // demo default value
-  //   // password_confirm:'admin'
-  // });
+  const loginConfig = useStorage('auth-config', {
+    // 需要clear localstorage
+    rememberPassword: true,
+    username: 'zee', // 演示默认值
+    password: '123456', // demo default value
+    // password_confirm:'admin'
+  });
   const userInfo = reactive({
     // username: loginConfig.value.username,
     // password: loginConfig.value.password,
