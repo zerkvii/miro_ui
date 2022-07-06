@@ -10,12 +10,12 @@
         <a-grid-item
           :span="{ xs: 24, sm: 24, md: 24, lg: 12, xl: 12, xxl: 12 }"
         >
-<!--          <PopularContent />-->
-          <CategoriesPercent />
+          <PopularContent />
         </a-grid-item>
         <a-grid-item
           :span="{ xs: 24, sm: 24, md: 24, lg: 12, xl: 12, xxl: 12 }"
         >
+          <CategoriesPercent />
         </a-grid-item>
       </a-grid>
     </div>
@@ -28,13 +28,13 @@
           </div>
         </a-grid-item>
         <a-grid-item class="panel" :span="24">
-                    <Carousel />
+          <Carousel />
         </a-grid-item>
         <a-grid-item class="panel" :span="24">
-                    <Announcement />
+          <Announcement />
         </a-grid-item>
         <a-grid-item class="panel" :span="24">
-<!--                    <Docs />-->
+          <Docs />
         </a-grid-item>
       </a-grid>
     </div>
@@ -83,13 +83,16 @@
     border-radius: 4px;
     overflow: auto;
   }
+
   :deep(.panel-border) {
     margin-bottom: 0;
     border-bottom: 1px solid rgb(var(--gray-2));
   }
+
   .moduler-wrap {
     border-radius: 4px;
     background-color: var(--color-bg-2);
+
     :deep(.text) {
       font-size: 12px;
       text-align: center;
@@ -106,11 +109,13 @@
           margin-bottom: 0;
         }
       }
+
       &:hover {
         .icon {
           color: rgb(var(--arcoblue-6));
           background-color: #e8f3ff;
         }
+
         .text {
           color: rgb(var(--arcoblue-6));
         }
@@ -138,6 +143,7 @@
     .container {
       display: block;
     }
+
     .right-side {
       // display: none;
       width: 100%;
