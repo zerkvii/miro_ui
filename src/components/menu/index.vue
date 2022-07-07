@@ -2,10 +2,8 @@
   import { defineComponent, ref, h, compile, computed } from 'vue';
   import { useI18n } from 'vue-i18n';
   import { useRoute, useRouter, RouteRecordRaw } from 'vue-router';
-  import type { RouteMeta } from 'vue-router';
   import { useAppStore } from '@/store';
   import { listenerRouteChange } from '@/utils/route-listener';
-  import { openWindow, regexUrl } from '@/utils';
   import useMenuTree from './useMenuTree';
 
   export default defineComponent({
@@ -31,17 +29,17 @@
 
       const goto = (item: RouteRecordRaw) => {
         // Open external link
-        if (regexUrl.test(item.path)) {
-          openWindow(item.path);
-          selectedKey.value = [item.name as string];
-          return;
-        }
+        // if (regexUrl.test(item.path)) {
+        //   openWindow(item.path);
+        //   selectedKey.value = [item.name as string];
+        //   return;
+        // }
         // Eliminate external link side effects
-        const { hideInMenu, activeMenu } = item.meta as RouteMeta;
-        if (route.name === item.name && !hideInMenu && !activeMenu) {
-          selectedKey.value = [item.name as string];
-          return;
-        }
+        // const { hideInMenu, activeMenu } = item.meta as RouteMeta;
+        // if (route.name === item.name && !hideInMenu && !activeMenu) {
+        //   selectedKey.value = [item.name as string];
+        //   return;
+        // }
         // Trigger router change
         router.push({
           name: item.name,
@@ -49,27 +47,25 @@
       };
       const findMenuOpenKeys = (name: string) => {
         const result: string[] = [];
+
         let isFind = false;
-        const backtrack = (
-          item: RouteRecordRaw,
-          keys: string[],
-          target: string
-        ) => {
+        const backtrack = (item: RouteRecordRaw, target: string) => {
           if (item.name === target) {
             isFind = true;
-            result.push(...keys, item.name as string);
+            result.push(item.name as string);
             return;
           }
           if (item.children?.length) {
             item.children.forEach((el) => {
-              backtrack(el, [...keys], target);
+              backtrack(el, target);
             });
           }
         };
         menuTree.value.forEach((el: RouteRecordRaw) => {
           if (isFind) return; // Performance optimization
-          backtrack(el, [el.name as string], name);
+          backtrack(el, name);
         });
+        // // console.log(result)
         return result;
       };
       listenerRouteChange((newRoute) => {
@@ -114,17 +110,19 @@
                 ) : (
                   <a-menu-item
                     key={element?.name}
-                    v-slots={{ icon }}
+                    v-slots={{
+                      icon,
+                      title: () => h(compile(t(element?.meta?.locale || ''))),
+                    }}
                     onClick={() => goto(element)}
-                  >
-                    {t(element?.meta?.locale || '')}
-                  </a-menu-item>
+                  ></a-menu-item>
                 );
               nodes.push(node as never);
             });
           }
           return nodes;
         }
+
         return travel(menuTree.value);
       };
 
@@ -153,6 +151,7 @@
       display: flex;
       align-items: center;
     }
+
     .arco-icon {
       &:not(.arco-icon-down) {
         font-size: 18px;
