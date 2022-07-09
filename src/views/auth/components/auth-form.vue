@@ -43,13 +43,13 @@
       </a-form-item>
       <a-space :size="16" direction="vertical">
         <div class="login-form-password-actions">
-          <a-checkbox
-            checked="rememberPassword"
-            :model-value="loginConfig.rememberPassword"
-            @change="setRememberPassword;"
-          >
-            {{ $t('auth.form.rememberPassword') }}
-          </a-checkbox>
+<!--          <a-checkbox-->
+<!--            checked="rememberPassword"-->
+<!--            :model-value="loginConfig.rememberPassword"-->
+<!--            @change="setRememberPassword;"-->
+<!--          >-->
+<!--            {{ $t('auth.form.rememberPassword') }}-->
+<!--          </a-checkbox>-->
           <a-link>{{ $t('auth.form.forgetPassword') }}</a-link>
         </div>
         <a-button type="primary" html-type="submit" long :loading="loading">
@@ -86,17 +86,17 @@
   const userStore = useUserStore();
   const emit = defineEmits(['toggleRegister']);
 
-  const loginConfig = useStorage('auth-config', {
-    // 需要clear localstorage
-    rememberPassword: true,
-    username: 'zee', // 演示默认值
-    password: '123456', // demo default value
-    // password_confirm:'admin'
-  });
+  // const loginConfig = useStorage('auth-config', {
+  //   // 需要clear localstorage
+  //   rememberPassword: true,
+  //   username: 'zerk', // 演示默认值
+  //   password: '123456', // demo default value
+  //   // password_confirm:'admin'
+  // });
   const userInfo = reactive({
     // username: loginConfig.value.username,
     // password: loginConfig.value.password,
-    username: 'zee',
+    username: 'zerk',
     password: '123456',
     // password_confirm: loginConfig.value.password_confirm
     // username:'zerkvii'
@@ -114,21 +114,20 @@
       try {
         await userStore.login(values as AuthData);
         const { redirect, ...othersQuery } = router.currentRoute.value.query;
-        router
+        await router
           .push({
             name: (redirect as string) || 'Workplace',
             query: {
               ...othersQuery,
             },
-          })
-          .then();
+          });
         Message.success(t('auth.form.login.success'));
-        const { rememberPassword } = loginConfig.value;
+        // const { rememberPassword } = loginConfig.value;
         const { username, password } = values;
         // 实际生产环境需要进行加密存储。
         // The actual production environment requires encrypted storage.
-        loginConfig.value.username = rememberPassword ? username : '';
-        loginConfig.value.password = rememberPassword ? password : '';
+        // loginConfig.value.username = rememberPassword ? username : '';
+        // loginConfig.value.password = rememberPassword ? password : '';
       } catch (err) {
         errorMessage.value = (err as Error).message;
       } finally {
@@ -137,7 +136,7 @@
     }
   };
   const setRememberPassword = (value: boolean) => {
-    loginConfig.value.rememberPassword = value;
+    // loginConfig.value.rememberPassword = value;
   };
 
   const register = () => {

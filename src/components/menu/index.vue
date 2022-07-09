@@ -2,8 +2,10 @@
   import { defineComponent, ref, h, compile, computed } from 'vue';
   import { useI18n } from 'vue-i18n';
   import { useRoute, useRouter, RouteRecordRaw } from 'vue-router';
+  import type { RouteMeta } from 'vue-router';
   import { useAppStore } from '@/store';
   import { listenerRouteChange } from '@/utils/route-listener';
+  import { openWindow, regexUrl } from '@/utils';
   import useMenuTree from './useMenuTree';
 
   export default defineComponent({
@@ -29,43 +31,46 @@
 
       const goto = (item: RouteRecordRaw) => {
         // Open external link
-        // if (regexUrl.test(item.path)) {
-        //   openWindow(item.path);
-        //   selectedKey.value = [item.name as string];
-        //   return;
-        // }
+        if (regexUrl.test(item.path)) {
+          openWindow(item.path);
+          selectedKey.value = [item.name as string];
+          return;
+        }
         // Eliminate external link side effects
-        // const { hideInMenu, activeMenu } = item.meta as RouteMeta;
-        // if (route.name === item.name && !hideInMenu && !activeMenu) {
-        //   selectedKey.value = [item.name as string];
-        //   return;
-        // }
+        const { hideInMenu, activeMenu } = item.meta as RouteMeta;
+        if (route.name === item.name && !hideInMenu && !activeMenu) {
+          selectedKey.value = [item.name as string];
+          return;
+        }
         // Trigger router change
+        // console.log(item.name)
         router.push({
           name: item.name,
         });
       };
       const findMenuOpenKeys = (name: string) => {
         const result: string[] = [];
-
         let isFind = false;
-        const backtrack = (item: RouteRecordRaw, target: string) => {
+        const backtrack = (
+          item: RouteRecordRaw,
+          keys: string[],
+          target: string
+        ) => {
           if (item.name === target) {
             isFind = true;
-            result.push(item.name as string);
+            result.push(...keys, item.name as string);
             return;
           }
           if (item.children?.length) {
             item.children.forEach((el) => {
-              backtrack(el, target);
+              backtrack(el, [...keys], target);
             });
           }
         };
         menuTree.value.forEach((el: RouteRecordRaw) => {
           if (isFind) return; // Performance optimization
-          backtrack(el, name);
+          backtrack(el, [el.name as string], name);
         });
-        // // console.log(result)
         return result;
       };
       listenerRouteChange((newRoute) => {
@@ -88,6 +93,7 @@
           appStore.updateSettings({ menuCollapse: val });
       };
 
+      // console.log(menuTree.value);
       const renderSubMenu = () => {
         function travel(_route: RouteRecordRaw[], nodes = []) {
           if (_route) {
@@ -105,24 +111,23 @@
                       title: () => h(compile(t(element?.meta?.locale || ''))),
                     }}
                   >
-                    {travel(element?.children)}
+                    {travel(element.children)}
                   </a-sub-menu>
                 ) : (
                   <a-menu-item
                     key={element?.name}
-                    v-slots={{
-                      icon,
-                      title: () => h(compile(t(element?.meta?.locale || ''))),
-                    }}
+                    v-slots={{ icon }}
                     onClick={() => goto(element)}
-                  ></a-menu-item>
+                  >
+                    {t(element?.meta?.locale || 'menu.meta.undefined')}
+                  </a-menu-item>
                 );
               nodes.push(node as never);
             });
           }
           return nodes;
         }
-
+        // console.log(menuTree.value);
         return travel(menuTree.value);
       };
 

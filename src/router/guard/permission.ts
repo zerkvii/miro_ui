@@ -24,14 +24,11 @@ export default function setupPermissionGuard(router: Router) {
       ) {
         await appStore.fetchServerMenuConfig();
       }
-      // async configure menus from server
       const serverMenuConfig = [...appStore.appAsyncMenus, ...WHITE_LIST];
-      // console.log(serverMenuConfig);
+
       let exist = false;
-      // console.log(serverMenuConfig[0])
       while (serverMenuConfig.length && !exist) {
         const element = serverMenuConfig.shift();
-        // console.log(element)
         if (element?.name === to.name) exist = true;
 
         if (element?.children) {
@@ -42,9 +39,7 @@ export default function setupPermissionGuard(router: Router) {
       }
       if (exist && permissionsAllow) {
         next();
-      } else {
-        next(NOT_FOUND);
-      }
+      } else next(NOT_FOUND);
     } else {
       // eslint-disable-next-line no-lonely-if
       if (permissionsAllow) next();

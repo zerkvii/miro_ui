@@ -4,6 +4,7 @@ import type { NotificationReturn } from "@arco-design/web-vue/es/notification/in
 import type { RouteRecordNormalized } from "vue-router";
 import defaultSettings from "@/config/settings.json";
 import { getMenuList } from "@/api/user";
+import { computed } from "vue";
 import { AppState } from "./types";
 
 const useAppStore = defineStore("app", {
@@ -54,8 +55,36 @@ const useAppStore = defineStore("app", {
         });
         const { data } = await getMenuList();
         // const data={}
+        // let retList=[];
+        // conserved set
+        const menuTree = computed(() => {
+          const copyRouter = JSON.parse(JSON.stringify(data));
 
-        this.serverMenu = data;
+          function travel(_routes: any[], layer: number) {
+            if (!_routes) return null;
+            const collector: any = _routes.map((element) => {
+              if (element.level === layer) {
+                const childrenIds = element.children_ids?.split(",").map(Number);
+                if (childrenIds.length > 0) {
+                  element.children = copyRouter.filter((x: any) =>
+                    childrenIds.includes(x.id)
+                  );
+                  travel(element.children, layer + 1);
+                }
+                return element;
+              }
+              return null;
+            });
+            return collector.filter(Boolean);
+          }
+
+          return travel(data, 1);
+        });
+        const whiteList = ["index", "auth", "Error", "Info", "Success", "403", "404", "500", "exception"];
+        // console.log("menuTree before", menuTree.value);
+        this.serverMenu = menuTree.value.filter((element: any) => !whiteList.includes(element.name));
+        console.log(this.serverMenu);
+
         // @ts-ignore
         // this.$patch({ "serverMenu": data });
         notifyInstance = Notification.success({
