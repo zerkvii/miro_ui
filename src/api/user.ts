@@ -1,7 +1,6 @@
 import axios from 'axios';
 import type { RouteRecordNormalized } from 'vue-router';
 import { UserState } from '@/store/modules/user/types';
-import { clearToken } from "@/utils/auth";
 
 export interface AuthData {
   username: string;
@@ -9,7 +8,7 @@ export interface AuthData {
 }
 
 export interface LoginRes {
-  token:string
+  token: string;
 }
 
 export function auth(data: AuthData) {

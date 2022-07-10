@@ -2,8 +2,7 @@ import axios from 'axios';
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Message, Modal } from '@arco-design/web-vue';
 import { useUserStore } from '@/store';
-import { clearToken, getToken } from "@/utils/auth";
-import { useRouter } from 'vue-router';
+import { clearToken, getToken } from '@/utils/auth';
 
 export interface HttpResponse<T = unknown> {
   detail: any;
@@ -66,7 +65,7 @@ axios.interceptors.response.use(
         });
       }
 
-      if(res.detail.status===403){
+      if (res.detail.status === 403) {
         clearToken();
       }
 

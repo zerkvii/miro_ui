@@ -1,13 +1,14 @@
 <template>
   <div class="container">
     <div class="logo">
-      <img class="logo-img"
+      <img
+        class="logo-img"
         alt="logo"
         src="https://qiniu.maktubtech.com/miro/logo.png"
       />
       <div class="logo-text">Miro</div>
     </div>
-    <AuthBanner  />
+    <AuthBanner />
     <div class="content">
       <div class="content-inner">
         <AuthForm @toggleRegister="toggleRegisterAction" />
@@ -21,13 +22,13 @@
 
 <script lang="ts" setup>
   import Footer from '@/components/footer/index.vue';
-  import { reactive } from "vue";
+  import { reactive } from 'vue';
   import AuthBanner from './components/banner.vue';
   import AuthForm from './components/auth-form.vue';
 
-  const direction = reactive({dir:'row'});
+  const direction = reactive({ dir: 'row' });
   const toggleRegisterAction = () => {
-    direction.dir= direction.dir=== 'row-reverse'?'row':'row-reverse';
+    direction.dir = direction.dir === 'row-reverse' ? 'row' : 'row-reverse';
   };
 </script>
 
@@ -35,7 +36,7 @@
   .container {
     display: flex;
     height: 100vh;
-    flex-direction:v-bind('direction.dir');
+    flex-direction: v-bind('direction.dir');
     .banner {
       width: 550px;
       background: linear-gradient(163.85deg, #1d2129 0%, #00308f 100%);
@@ -84,8 +85,8 @@
       }
     }
   }
-  .logo-img{
-    width:5rem;
-    height:3rem;
+  .logo-img {
+    width: 5rem;
+    height: 3rem;
   }
 </style>

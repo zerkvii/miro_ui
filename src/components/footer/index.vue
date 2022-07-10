@@ -1,5 +1,7 @@
 <template>
-  <a-layout-footer class="footer">2022 © zerkvii@maktubtech.com</a-layout-footer>
+  <a-layout-footer class="footer">
+    2022 © zerkvii@maktubtech.com
+  </a-layout-footer>
 </template>
 
 <script lang="ts" setup></script>

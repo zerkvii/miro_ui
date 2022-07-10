@@ -43,13 +43,13 @@
       </a-form-item>
       <a-space :size="16" direction="vertical">
         <div class="login-form-password-actions">
-<!--          <a-checkbox-->
-<!--            checked="rememberPassword"-->
-<!--            :model-value="loginConfig.rememberPassword"-->
-<!--            @change="setRememberPassword;"-->
-<!--          >-->
-<!--            {{ $t('auth.form.rememberPassword') }}-->
-<!--          </a-checkbox>-->
+          <!--          <a-checkbox-->
+          <!--            checked="rememberPassword"-->
+          <!--            :model-value="loginConfig.rememberPassword"-->
+          <!--            @change="setRememberPassword;"-->
+          <!--          >-->
+          <!--            {{ $t('auth.form.rememberPassword') }}-->
+          <!--          </a-checkbox>-->
           <a-link>{{ $t('auth.form.forgetPassword') }}</a-link>
         </div>
         <a-button type="primary" html-type="submit" long :loading="loading">
@@ -114,13 +114,12 @@
       try {
         await userStore.login(values as AuthData);
         const { redirect, ...othersQuery } = router.currentRoute.value.query;
-        await router
-          .push({
-            name: (redirect as string) || 'Workplace',
-            query: {
-              ...othersQuery,
-            },
-          });
+        await router.push({
+          name: (redirect as string) || 'Workplace',
+          query: {
+            ...othersQuery,
+          },
+        });
         Message.success(t('auth.form.login.success'));
         // const { rememberPassword } = loginConfig.value;
         const { username, password } = values;

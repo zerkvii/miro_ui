@@ -15,12 +15,12 @@ export default function useMenuTree() {
   });
   const menuTree = computed(() => {
     let copyRouter = JSON.parse(JSON.stringify(appRoute.value));
-    copyRouter=copyRouter.filter(Boolean)
+    copyRouter = copyRouter.filter(Boolean);
     copyRouter.sort((a: RouteRecordNormalized, b: RouteRecordNormalized) => {
       return (a.meta.order || 0) - (b.meta.order || 0);
     });
     // console.log('after copyRouter',copyRouter);
-    function travel(_routes: RouteRecordRaw[], layer: number) {
+    function travel(_routes: RouteRecordRaw[]) {
       if (!_routes) return null;
 
       const collector: any = _routes.map((element) => {
@@ -57,12 +57,12 @@ export default function useMenuTree() {
           return element;
         }
 
-        return element
+        return element;
         // return null;
       });
       return collector.filter(Boolean);
     }
-    return travel(copyRouter, 0);
+    return travel(copyRouter);
     // return copyRouter
   });
 
