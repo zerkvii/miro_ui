@@ -2,16 +2,6 @@ import axios from 'axios';
 import qs from 'query-string';
 import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
 
-export interface PolicyRecord {
-  id: string;
-  number: number;
-  name: string;
-  contentType: 'img' | 'horizontalVideo' | 'verticalVideo';
-  filterType: 'artificial' | 'rules';
-  count: number;
-  status: 'online' | 'offline';
-  createdTime: string;
-}
 export interface MusicRecord {
   id: number;
   number: number;
@@ -22,18 +12,18 @@ export interface MusicRecord {
   status: 'online' | 'offline';
 }
 
-export interface PolicyParams extends Partial<PolicyRecord> {
+export interface MusicParams extends Partial<MusicRecord> {
   current: number;
   pageSize: number;
 }
 
-export interface PolicyListRes {
-  list: PolicyRecord[];
+export interface MusicListRes {
+  list: MusicRecord[];
   total: number;
 }
 
-export function queryPolicyList(params: PolicyParams) {
-  return axios.get<PolicyListRes>('/api/list/policy', {
+export function queryMusicList(params: MusicParams) {
+  return axios.get<MusicListRes>('/api/musics', {
     params,
     paramsSerializer: (obj) => {
       return qs.stringify(obj);

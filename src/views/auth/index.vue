@@ -1,11 +1,7 @@
 <template>
   <div class="container">
     <div class="logo">
-      <img
-        class="logo-img"
-        alt="logo"
-        src="https://qiniu.maktubtech.com/miro/logo.png"
-      />
+      <img class="logo-img" alt="logo" :src="logoUrl" />
       <div class="logo-text">Miro</div>
     </div>
     <AuthBanner />
@@ -22,14 +18,25 @@
 
 <script lang="ts" setup>
   import Footer from '@/components/footer/index.vue';
-  import { reactive } from 'vue';
+  import { reactive, ref } from 'vue';
+  import { getLogo } from '@/views/auth/api/user';
   import AuthBanner from './components/banner.vue';
   import AuthForm from './components/auth-form.vue';
 
+  // const logoUrl=reactive({
+  //   logoUrl: 'https://miro.com/static/logo.png'
+  // });
+  const logoUrl = ref<string>('');
   const direction = reactive({ dir: 'row' });
   const toggleRegisterAction = () => {
     direction.dir = direction.dir === 'row-reverse' ? 'row' : 'row-reverse';
   };
+  const getLogoUrl = () => {
+    getLogo().then((res) => {
+      logoUrl.value = res.data.logoUrl;
+    });
+  };
+  getLogoUrl();
 </script>
 
 <style lang="less" scoped>

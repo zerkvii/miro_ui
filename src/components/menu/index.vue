@@ -127,7 +127,6 @@
           }
           return nodes;
         }
-        // console.log(menuTree.value);
         return travel(menuTree.value);
       };
 

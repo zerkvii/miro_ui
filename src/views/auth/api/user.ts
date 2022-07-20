@@ -10,6 +10,9 @@ export interface AuthData {
 export interface LoginRes {
   token: string;
 }
+export interface LogoUrl{
+  logoUrl: string;
+}
 
 export function auth(data: AuthData) {
   return axios.post<LoginRes>('/api/users/auth', data);
@@ -25,4 +28,8 @@ export function getUserInfo() {
 
 export function getMenuList() {
   return axios.get<RouteRecordNormalized[]>('/api/users/menu');
+}
+
+export function getLogo(){
+  return axios.get<LogoUrl>('/api/users/logo');
 }

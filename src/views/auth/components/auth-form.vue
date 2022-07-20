@@ -77,7 +77,7 @@
   import { useStorage } from '@vueuse/core';
   import { useUserStore } from '@/store';
   import useLoading from '@/hooks/loading';
-  import type { AuthData } from '@/api/user';
+  import type { AuthData } from '@/views/auth/api/user';
 
   const router = useRouter();
   const { t } = useI18n();

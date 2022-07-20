@@ -12,6 +12,8 @@ import localeStepForm from '@/views/form/step/locale/zh-CN';
 import localeGroupForm from '@/views/form/group/locale/zh-CN';
 
 import localeBasicProfile from '@/views/profile/basic/locale/zh-CN';
+import localeMusic from '@/views/file/music/locale/zh-CN';
+import localePic from '@/views/file/pic/locale/zh-CN';
 
 import localeDataAnalysis from '@/views/visualization/data-analysis/locale/zh-CN';
 import localeMultiDAnalysis from '@/views/visualization/multi-dimension-data-analysis/locale/zh-CN';
@@ -45,6 +47,7 @@ export default {
   'navbar.docs': '文档中心',
   'navbar.action.locale': '切换为中文',
   'menu.meta.undefined': '未定义',
+  'menu.file': '文件',
   ...localeSettings,
   ...localeMessageBox,
   ...localeLogin,
@@ -65,4 +68,6 @@ export default {
   ...locale500,
   ...localeUserInfo,
   ...localeUserSetting,
+  ...localeMusic,
+  ...localePic,
 };

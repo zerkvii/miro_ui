@@ -62,7 +62,6 @@
       const ret = data.data;
       let count = 0;
       const chatList: any[] = [];
-      console.log('bew data')
       ret.forEach((ele: any) => {
         ele.id = count;
         ele.time = new Date(ele.time).toLocaleString();
